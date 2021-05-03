@@ -17,14 +17,15 @@ document.addEventListener('keydown', function(e) {
 		tetromino.move(arena, 1);
 	} else if(e.keyCode == 40) {
 		tetromino.drop(arena);
-	} else if(e.keyCode == 80) {
-		window.cancelAnimationFrame(game);
+	} else if(e.keyCode == 13) {
+		paused ^= 1;	
 	}
 });
 
 var start = 0;
+var paused = 0;
 var showTetris = function(time) {
-	if((time-start) >= 200) {
+	if((time-start) >= 200 && !paused) {
 		start = time;
 		stepTetris();
 		arena.sweep();
@@ -34,4 +35,4 @@ var showTetris = function(time) {
 	window.requestAnimationFrame(showTetris);
 } 
 
-let game = window.requestAnimationFrame(showTetris);
+var game = window.requestAnimationFrame(showTetris);
