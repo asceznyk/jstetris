@@ -17,6 +17,8 @@ document.addEventListener('keydown', function(e) {
 		tetromino.move(arena, 1);
 	} else if(e.keyCode == 40) {
 		tetromino.drop(arena);
+	} else if(e.keyCode == 80) {
+		window.cancelAnimationFrame(game);
 	}
 });
 
@@ -31,4 +33,5 @@ var showTetris = function(time) {
 	}	
 	window.requestAnimationFrame(showTetris);
 } 
-window.requestAnimationFrame(showTetris);
+
+let game = window.requestAnimationFrame(showTetris);
