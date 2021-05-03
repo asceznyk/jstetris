@@ -1,25 +1,26 @@
-var aggHeight = function(arena) {
+var	HeightBumpiness = function(arena) {
 	let agheight = 0;
+	let bumpiness = 0;
+	let last = 0;
 	for(let j = 0; j < arena.cols; j++) {
 		for(let i = 0; i < arena.rows; i++)  {	
 			if(arena.matrix[i][j] > 0) {
-				agheight += arena.rows - i;
+				let height = arena.rows - i;
+				agheight += height;
+				if(last) {
+					bumpiness += Math.abs(last - height);
+				}
+				last = height;
 				break;
 			}
 		}
 	}
-	return agheight;
+	return [agheight, bumpiness];
 }
 
-var bumpiness = function(arena) {
-	let bumpiness = 0;
-
-};
-
 var arenaScore = function(arena) {
-	let agheight = aggHeight(arena)
-	let bumpiness = bumpiness(arena)
-	console.log(agheight);
+	let [agheight, bumpiness] = HeightBumpiness(arena)
+	console.log(agheight, bumpiness);
 }
 
 
