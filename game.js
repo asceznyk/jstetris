@@ -19,6 +19,8 @@ document.addEventListener('keydown', function(e) {
 		tetromino.drop(arena);
 	} else if(e.keyCode == 13) {
 		paused ^= 1;	
+	} else if(e.keyCode == 83) {
+		arena.reset();
 	}
 });
 
@@ -28,9 +30,9 @@ var showTetris = function(time) {
 	if((time-start) >= 200 && !paused) {
 		start = time;
 		stepTetris();
-		arena.sweep();
-		arena.show();
 		arenaScore(arena);
+		arena.sweep();
+		arena.show();	
 	}	
 	window.requestAnimationFrame(showTetris);
 } 
