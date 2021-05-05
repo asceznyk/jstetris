@@ -52,12 +52,17 @@ var countHoles = function(arena) {
 	return holes;
 }
 
-
 var arenaScore = function(arena) {
 	let [agheight, bumpiness] = heightBumpiness(arena);
 	let lines = completeLines(arena);
 	let holes = countHoles(arena);
-	console.log(agheight, bumpiness, holes, lines);
+	let [a, b, c, d] = [-0.510066, 0.760666, -0.35663, -0.184483];
+	return a * agheight + b * lines + c * holes + d * bumpiness;
+	//console.log(agheight, lines, holes, bumpiness);
 }
+
+
+
+
 
 
