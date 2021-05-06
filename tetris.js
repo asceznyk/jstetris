@@ -117,19 +117,24 @@ class Tetromino {
 		}
 	}
 
-	move(arena, dir) {
+	push(arena, dir) {
 		this.x += dir;
 		if(collideMatrix(this, arena)) {
 			this.x -= dir;
+			return 0;
 		}
+		return 1;
 	}
 
 	rotate(arena) {
+		//console.log(this.x);
 		let dir = 1;
 		rotateMatrix(this, dir);
 		if (collideMatrix(this, arena)) {
 			rotateMatrix(this, -dir);
+			return 0;
 		}
+		return 1;
 	}
 
 	show() {

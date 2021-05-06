@@ -61,6 +61,66 @@ var arenaScore = function(arena) {
 	//console.log(agheight, lines, holes, bumpiness);
 }
 
+var checkValues = function(mtx1, mtx2) {
+	for(let r = 0; r < mtx1.length; r++) {
+		for(let c = 0; c < mtx1[r].length; c++) {
+			if(mtx1[r][c] !== mtx2[r][c]) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+var generateMoves = function(arena, tetromino) {
+	let moves = [];
+	
+	let r = 0;
+	let init = deepCopy(tetromino);
+	while(true) {
+		let p = 0;
+		while(tetromino.push(arena, p)) {
+			moves.push({'push':p, 'rotate':r})
+			tetromino.x = init.x;
+			p++;
+		}
+
+		console.log(tetromino.x)
+
+		p = -1;
+		while(tetromino.push(arena, p)) {
+			moves.push({'push':p, 'rotate':r})
+			tetromino.x = init.x;
+			p--;
+		}	
+	
+		if(!tetromino.rotate(arena) || checkValues(init.matrix, tetromino.matrix)) {
+			break;
+		}
+		r++;
+	}
+
+	tetromino.x = init.x;
+	tetromino.matrix = init.matrix;
+	console.log(init.x);
+	return moves;
+};
+
+var makeMove = function(arena, tetromino, move) {
+	for(let i = 0; i < move['rotate']; i++) {
+		tetromino.rotate(arena);
+	}
+	tetromino.push(arena, move['push']);
+}
+
+//soln for generateMoves:
+//first rotate the piece
+//then for each rotation check how much you can push..
+//thank me later!
+
+
+
 
 
 
