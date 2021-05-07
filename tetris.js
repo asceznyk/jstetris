@@ -9,16 +9,6 @@ ctx.scale(scl, scl);
 
 var colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#293241', '#5B4144']; 
 
-var cloneTetro = function(obj) {
-	if(null == obj || "object" != typeof obj) return obj;
-	var copy = new Tetromino(cols);
-	for (let attr in obj) {
-		if(obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-	}
-
-	return copy;
-}
-
 var createMatrix = function() {
 	let text = 'IJZOSLT';
 	let type = text[Math.floor(Math.random() * text.length)];
@@ -126,9 +116,7 @@ class Tetromino {
 		return 1;
 	}
 
-	rotate(arena) {
-		//console.log(this.x);
-		let dir = 1;
+	rotate(arena, dir) {		
 		rotateMatrix(this, dir);
 		if (collideMatrix(this, arena)) {
 			rotateMatrix(this, -dir);
@@ -180,7 +168,7 @@ class Arena {
 			}
 		}
 		
-		let data = cloneTetro(tetromino);
+		let data = deepCopy(tetromino);
 		this.record.push(data);
 	}
 
