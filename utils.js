@@ -17,3 +17,13 @@ const deepCopy = (objectin) => {
 
   return outobject
 }
+
+var cloneTetro = function(obj) {
+	if(null == obj || "object" != typeof obj) return obj;
+	var copy = new Tetromino(cols);
+	for (let attr in obj) {
+		if(obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+	}
+
+	return copy;
+}
