@@ -86,12 +86,20 @@ class Tetromino {
 		this.x = this.start;
 		this.y = 0;
 		this.matrix = createMatrix();	
+
+		this.future = [createMatrix(), createMatrix()];
+		//console.log(this.future);
+		this.matrix = this.future.shift();
+
 	}
 
 	reset(arena) {
 		this.x = this.start;
 		this.y = 0;
-		this.matrix = createMatrix();
+		//this.matrix = createMatrix();
+		
+		this.future.push(createMatrix());
+		this.matrix = this.future.shift();
 	
 		if(collideMatrix(this, arena)) {
 			arena.reset();
