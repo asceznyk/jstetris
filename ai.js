@@ -81,8 +81,7 @@ var generateMoves = function(arena, tetromino) {
 	let init = deepCopy(tetromino);
 	while(r > 0) {
 		r--;
-		if(!tetromino.rotate(arena, r)) {	
-			
+		if(!tetromino.rotate(arena, r)) {		
 			continue;
 		}	
 
