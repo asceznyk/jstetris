@@ -104,7 +104,9 @@ class Tetromino {
 			this.y--;
 			arena.merge(this);
 			this.reset(arena);
+			return 0;
 		}
+		return 1;
 	}
 
 	push(arena, dir) {
@@ -169,7 +171,7 @@ class Arena {
 			}
 		}
 		
-		let data = deepCopy(tetromino);
+		let data = cloneTetro(tetromino);
 		this.record.push(data);
 	}
 

@@ -77,21 +77,19 @@ var generateMoves = function(arena, tetromino) {
 	let moves = [];
 	
 	let r = 0;
-	let init = deepCopy(tetromino);
+	let init = cloneTetro(tetromino); //deepCopy(tetromino);
 	while(true) {
 		let p = 0;
 		while(tetromino.push(arena, p)) {
 			moves.push({'push':p, 'rotate':r})
-			tetromino.x = init.x;
+			tetromino.x -= p;
 			p++;
-		}
-
-		console.log(tetromino.x)
+		}	
 
 		p = -1;
 		while(tetromino.push(arena, p)) {
 			moves.push({'push':p, 'rotate':r})
-			tetromino.x = init.x;
+			tetromino.x -= p;
 			p--;
 		}	
 	
@@ -101,18 +99,32 @@ var generateMoves = function(arena, tetromino) {
 		r++;
 	}
 
-	tetromino.x = init.x;
-	tetromino.matrix = init.matrix;
-	console.log(init.x);
+	tetromino = init;
 	return moves;
 };
 
 var makeMove = function(arena, tetromino, move) {
-	for(let i = 0; i < move['rotate']; i++) {
+
+	for(let i = 0; i < move['rotate']; i++) {	
 		tetromino.rotate(arena);
 	}
 	tetromino.push(arena, move['push']);
+	
+	while(tetromino.drop(arena)) {
+		continue;
+	}
 }
+
+var undoMove = function(arena, tetromino) {
+	arena.seperate();
+}
+
+var playRandom = function(arena, tetromino) {
+	let moves = generateMoves(arena, tetromino);
+	let move = moves[Math.floor(Math.random() * moves.length)];
+	makeMove(arena, tetromino, move);
+}
+
 
 //soln for generateMoves:
 //first rotate the piece
