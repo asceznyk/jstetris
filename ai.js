@@ -112,22 +112,27 @@ var generateMoves = function(arena, tetromino) {
 	return moves;
 };
 
-var makeMove = function(arena, tetromino, move) {
-	console.log(move)
-	for(let i = 0; i < move['rotate']; i++) {	
-		tetromino.rotate(arena);
-	}
-	tetromino.push(arena, move['push']);
+var matmoves = [];
+
+var makeMove = function(arena, tetromino, move) {	
+	tetromino.rotate(arena, move['rotate']);
+	tetromino.push(arena, move['push']);	
+
+	matmoves.push({'move':move, 'matrix':deepCopy(tetromino.matrix)});
 	
 	while(tetromino.drop(arena)) {
-		console.log('makng move')
 		continue;
-	}
+	}	
 }
 
 var undoMove = function(arena, tetromino) {
 	arena.seperate();
-	//tetromino = record.pop()
+	let movemat = matmoves.pop();
+	let [move, matrix] = [movemat['move'], movemat['matrix']];
+	tetromino.matrix = matrix;
+	tetromino.rotate(arena, -move['rotate']);
+	tetromino.push(arena, -move['push']);
+	tetromino.y = 0;
 }
 
 var playRandom = function(arena, tetromino) {
@@ -137,10 +142,8 @@ var playRandom = function(arena, tetromino) {
 }
 
 
-//soln for generateMoves:
-//first rotate the piece
-//then for each rotation check how much you can push..
-//thank me later!
+
+
 
 
 
