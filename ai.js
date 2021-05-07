@@ -57,8 +57,7 @@ var arenaScore = function(arena) {
 	let lines = completeLines(arena);
 	let holes = countHoles(arena);
 	let [a, b, c, d] = [-0.510066, 0.760666, -0.35663, -0.184483];
-	return a * agheight + b * lines + c * holes + d * bumpiness;
-	//console.log(agheight, lines, holes, bumpiness);
+	return a * agheight + b * lines + c * holes + d * bumpiness;	
 }
 
 var checkValues = function(mtx1, mtx2) {
@@ -75,10 +74,18 @@ var checkValues = function(mtx1, mtx2) {
 
 var generateMoves = function(arena, tetromino) {
 	let moves = [];
+
+	console.log('move generate..')
 	
-	let r = 0;
-	let init = cloneTetro(tetromino); //deepCopy(tetromino);
-	while(true) {
+	let r = 4;
+	let init = deepCopy(tetromino);
+	while(r > 0) {
+		r--;
+		if(!tetromino.rotate(arena, r)) {	
+			
+			continue;
+		}	
+
 		let p = 0;
 		while(tetromino.push(arena, p)) {
 			moves.push({'push':p, 'rotate':r})
@@ -91,32 +98,37 @@ var generateMoves = function(arena, tetromino) {
 			moves.push({'push':p, 'rotate':r})
 			tetromino.x -= p;
 			p--;
-		}	
-	
-		if(!tetromino.rotate(arena) || checkValues(init.matrix, tetromino.matrix)) {
-			break;
 		}
-		r++;
-	}
 
-	tetromino = init;
+		if(checkValues(init.matrix, tetromino.matrix)) {		
+			console.log('broke loop @'+r)
+			break;
+		}	
+		tetromino.x = init.x;
+		tetromino.matrix = init.matrix;
+	}
+	
+	tetromino.x = init.x;
+	tetromino.matrix = init.matrix;
 	return moves;
 };
 
 var makeMove = function(arena, tetromino, move) {
-
+	console.log(move)
 	for(let i = 0; i < move['rotate']; i++) {	
 		tetromino.rotate(arena);
 	}
 	tetromino.push(arena, move['push']);
 	
 	while(tetromino.drop(arena)) {
+		console.log('makng move')
 		continue;
 	}
 }
 
 var undoMove = function(arena, tetromino) {
 	arena.seperate();
+	//tetromino = record.pop()
 }
 
 var playRandom = function(arena, tetromino) {

@@ -118,12 +118,13 @@ class Tetromino {
 		return 1;
 	}
 
-	rotate(arena) {
-		let dir = 1;
-		rotateMatrix(this, dir);
-		if (collideMatrix(this, arena)) {
-			rotateMatrix(this, -dir);
-			return 0;
+	rotate(arena, dir) {
+		if(dir !== 0) {
+			rotateMatrix(this, dir);
+			if (collideMatrix(this, arena)) {
+				rotateMatrix(this, -dir);
+				return 0;
+			} 
 		}
 		return 1;
 	}
@@ -171,7 +172,7 @@ class Arena {
 			}
 		}
 		
-		let data = cloneTetro(tetromino);
+		let data = deepCopy(tetromino);
 		this.record.push(data);
 	}
 
