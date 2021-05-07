@@ -116,7 +116,8 @@ class Tetromino {
 		return 1;
 	}
 
-	rotate(arena, dir) {		
+	rotate(arena) {
+		let dir = 1;
 		rotateMatrix(this, dir);
 		if (collideMatrix(this, arena)) {
 			rotateMatrix(this, -dir);
