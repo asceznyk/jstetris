@@ -85,18 +85,15 @@ class Tetromino {
 		this.start = Math.floor(cols/2);
 		this.x = this.start;
 		this.y = 0;
-		this.matrix = createMatrix();	
-
+		
 		this.future = [createMatrix(), createMatrix()];
-		//console.log(this.future);
 		this.matrix = this.future.shift();
 
 	}
 
 	reset(arena) {
 		this.x = this.start;
-		this.y = 0;
-		//this.matrix = createMatrix();
+		this.y = 0;	
 		
 		this.future.push(createMatrix());
 		this.matrix = this.future.shift();
@@ -131,6 +128,7 @@ class Tetromino {
 			rotateMatrix(this, dir);
 			if (collideMatrix(this, arena)) {
 				rotateMatrix(this, -dir);
+				console.log('couldnt rotate '+dir+' '+tetromino.x+' '+tetromino.y);
 				return 0;
 			} 
 		}
@@ -190,9 +188,13 @@ class Arena {
 
 			for(let y = 0; y < tetromino.matrix.length; y++) {
 				for(let x = 0;  x < tetromino.matrix.length; x++) {
-					let cell = this.matrix[tetromino.y+y][tetromino.x+x]
-					if(tetromino.matrix[y][x] === cell) {	
-						this.matrix[tetromino.y+y][tetromino.x+x] = 0;
+					if(
+						this.matrix[tetromino.y+y] && this.matrix[tetromino.y+y][tetromino.x+x]
+					) {
+						let cell = this.matrix[tetromino.y+y][tetromino.x+x]
+						if(tetromino.matrix[y][x] === cell) {	
+							this.matrix[tetromino.y+y][tetromino.x+x] = 0;
+						} 
 					}
 				}
 			}

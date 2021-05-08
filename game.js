@@ -8,8 +8,7 @@ var stepTetris = function() {
 	tetromino.show();	
 };
 
-document.addEventListener('keydown', function(e) {
-	ai = 0;
+document.addEventListener('keydown', function(e) {	
 	if(e.keyCode == 37) {
 		tetromino.push(arena, -1);
 	} else if(e.keyCode == 38) {
@@ -23,7 +22,7 @@ document.addEventListener('keydown', function(e) {
 	} else if(e.keyCode == 82) {
 		arena.reset();
 	} else if(e.keyCode == 65) {
-		ai = 1;
+		ai ^= 1;
 	}
 });
 
@@ -33,10 +32,9 @@ var paused = 0;
 var showTetris = function(time) {
 	if((time-start) >= 200 && !paused) {
 		start = time;
-		stepTetris();
-		arenaScore(arena);
+		stepTetris();	
 		if(ai) {
-			playRandom(arena, tetromino);
+			playAI(arena, tetromino);
 		}
 		arena.sweep();
 		arena.show();	
