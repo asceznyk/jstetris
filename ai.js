@@ -138,42 +138,54 @@ var playRandom = function(arena, tetromino) {
 
 var dfsMove = function(arena, tetromino, depth) {
 	let stack = [];
-	let root = deepCopy(arena.matrix);
-	stack.push([root, depth]);
-
-	let bestmove;
+	let root = {pos: deepCopy(arena.matrix), depth:depth};
+	stack.push(root);
+	
+	let bestn;
 	let bestscore = -INF;
-	let  history = [];
+	let history = [];
 
 	while(stack.length) {
-		let [branch, depth] = stack.pop();
+		let branch = stack.pop();
 		
-		if(!depth) {
+		if(!branch.depth) {
 			continue;
 		}
 
-		arena.matrix = deepCopy(branch);
+		arena.matrix = deepCopy(branch.pos);
 		let moves = generateMoves(arena, tetromino);
 		let scores = Array(moves.length).fill(0);
-
 		for(let m = 0; m < moves.length; m++) {
 			makeMove(arena, tetromino, moves[m], history);
-			let leaf = deepCopy(arena.matrix);
+			let leaf = {
+				pos: deepCopy(arena.matrix), 
+				depth:branch.depth-1, 
+				parent:branch, 
+				move:moves[m]
+			};
 			
 			scores[m] = arenaScore(arena);
 			if(scores[m] > bestscore) {
 				bestscore = scores[m];
-				bestmove = moves[m];
+				bestn = leaf;
 			}
 
-			stack.push([leaf, depth-1]);
+			stack.push(leaf);
 			undoMove(arena, tetromino, history);
 		}
 	}
 
-	arena.matrix = deepCopy(root);
+	arena.matrix = deepCopy(root.pos);
+	
+	let node = bestn;
+	while(1) {
+		if(node.parent.depth == depth) {
+			break;
+		}
+		node = node.parent;
+	}	
 
-	return bestmove;
+	return node.move;
 }
 
 var exhaustMoves = function(arena, tetromino) {
@@ -204,7 +216,7 @@ var exhaustMoves = function(arena, tetromino) {
 }
 
 var playAI = function(arena, tetromino) {
-	let move = exhaustMoves(arena, tetromino);//dfsMove(arena, tetromino, 2);
+	let move = dfsMove(arena, tetromino, 2); //exhaustMoves(arena, tetromino); 
 	makeMove(arena, tetromino, move);
 }
 
