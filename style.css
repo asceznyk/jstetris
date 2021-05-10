@@ -11,4 +11,6 @@ body, html {
 	background:#EOFBFC;
 }
 
-
+#score {
+	margin: 10px 0px;
+}

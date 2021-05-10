@@ -12,6 +12,7 @@ var colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#29324
 var createMatrix = function() {
 	let text = 'IJZOSLT';
 	let type = text[Math.floor(Math.random() * text.length)];
+	//let type = 'I';
 	if (type === 'I') {
         return [
             [0, 1, 0, 0],
@@ -87,16 +88,17 @@ class Tetromino {
 		this.y = 0;
 		
 		this.future = [createMatrix(), createMatrix()];
-		this.matrix = this.future.shift();
+		this.matrix = this.future[0];
 
 	}
 
-	reset(arena) {
+	reset(arena) {	
 		this.x = this.start;
 		this.y = 0;	
 		
 		this.future.push(createMatrix());
-		this.matrix = this.future.shift();
+		this.future.shift();
+		this.matrix = this.future[0];
 	
 		if(collideMatrix(this, arena)) {
 			arena.reset();
@@ -128,9 +130,18 @@ class Tetromino {
 			rotateMatrix(this, dir);
 			if (collideMatrix(this, arena)) {
 				rotateMatrix(this, -dir);
-				console.log('couldnt rotate '+dir+' '+tetromino.x+' '+tetromino.y);
+				console.log('no rotate! '+dir);
 				return 0;
 			} 
+		}
+		return 1;
+	}
+
+	left(arena) {
+		this.x -= 1;
+		if(collideMatrix(this, arena)) {
+			this.x += 1;
+			return 0;
 		}
 		return 1;
 	}
@@ -154,13 +165,16 @@ class Arena {
 
 		this.record = [];
 
+		this.score = 0;
+
 		this.matrix = [];
 		for(let r = 0; r < rows; r++) {
 			this.matrix[r] = new Array(this.cols).fill(0);
 		}
 	}
 
-	reset() {
+	reset() {	
+		this.score = 0;
 		this.matrix = [];
 		for(let r = 0; r < rows; r++) {
 			this.matrix[r] = new Array(this.cols).fill(0);
@@ -220,7 +234,8 @@ class Arena {
 					r--;
 					continue outer;
 				}
-			}			
+			}
+			this.score++;
 			this.matrix.splice(r, 1);
 			this.matrix.unshift(new Array(this.cols).fill(0));
 		}

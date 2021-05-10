@@ -32,12 +32,14 @@ var paused = 0;
 var showTetris = function(time) {
 	if((time-start) >= 200 && !paused) {
 		start = time;
-		stepTetris();	
+		stepTetris();
+		//console.log(arenaScore(arena));
 		if(ai) {
 			playAI(arena, tetromino);
-		}
+		}	
 		arena.sweep();
-		arena.show();	
+		arena.show();
+		document.getElementById('score').innerHTML = 'Score: '+arena.score;
 	}	
 	window.requestAnimationFrame(showTetris);
 } 
