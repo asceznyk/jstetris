@@ -31,15 +31,19 @@ var start = 0;
 var paused = 0;
 var showTetris = function(time) {
 	if((time-start) >= 200 && !paused) {
-		start = time;
-		stepTetris();
-		//console.log(arenaScore(arena));
-		if(ai) {
-			playAI(arena, tetromino);
-		}	
-		arena.sweep();
-		arena.show();
-		document.getElementById('score').innerHTML = 'Score: '+arena.score;
+		if(!end) {
+			start = time;
+			stepTetris();
+			
+			if(ai) {
+				tetromino = playAI(arena, tetromino);
+				//playAI(arena, tetromino)
+			}
+
+			arena.sweep();
+			arena.show();
+			document.getElementById('score').innerHTML = 'Score: '+arena.score;
+		}
 	}	
 	window.requestAnimationFrame(showTetris);
 } 

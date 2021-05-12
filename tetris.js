@@ -1,36 +1,37 @@
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
 
-const rows = 20;
+const rows = 22;
 const cols = 10;
 const scl = canvas.width/cols; 
 
 ctx.scale(scl, scl);
 
+var end = 0
 var colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#293241', '#5B4144']; 
 
 var createMatrix = function() {
-	let text = 'IJZOSLT';
+	//let text = 'IJZOSLT';
+	let text = 'Z';
 	let type = text[Math.floor(Math.random() * text.length)];
-	//let type = 'I';
 	if (type === 'I') {
         return [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-        ];
-    } else if (type === 'L') {
-        return [
-            [0, 2, 0],
-            [0, 2, 0],
-            [0, 2, 2],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
         ];
     } else if (type === 'J') {
         return [
-            [0, 3, 0],
-            [0, 3, 0],
-            [3, 3, 0],
+            [0, 0, 2],
+            [2, 2, 2],
+            [0, 0, 0],
+        ];
+    } else if (type === 'L') {
+        return [
+            [3, 0, 0],
+            [3, 3, 3],
+            [0, 0, 0],
         ];
     } else if (type === 'O') {
         return [
@@ -92,7 +93,8 @@ class Tetromino {
 
 	}
 
-	reset(arena) {	
+	reset(arena) {
+		//console.log(arenaScore(arena), arena.matrix)
 		this.x = this.start;
 		this.y = 0;	
 		
@@ -102,6 +104,7 @@ class Tetromino {
 	
 		if(collideMatrix(this, arena)) {
 			arena.reset();
+			end = 1;
 		}
 	}
 
@@ -125,18 +128,6 @@ class Tetromino {
 		return 1;
 	}
 
-	rotate(arena, dir) {
-		if(dir !== 0) {
-			rotateMatrix(this, dir);
-			if (collideMatrix(this, arena)) {
-				rotateMatrix(this, -dir);
-				console.log('no rotate! '+dir);
-				return 0;
-			} 
-		}
-		return 1;
-	}
-
 	left(arena) {
 		this.x -= 1;
 		if(collideMatrix(this, arena)) {
@@ -144,6 +135,21 @@ class Tetromino {
 			return 0;
 		}
 		return 1;
+	}
+
+	rotate(arena) {
+		let dir = 1;
+		rotateMatrix(this, dir);
+		if (collideMatrix(this, arena)) {
+			rotateMatrix(this, -dir);
+		}
+	}	
+
+	copy() {
+		let copy = new Tetromino(10);
+		copy.matrix = deepCopy(this.matrix)
+		copy.x = this.x
+		return copy;
 	}
 
 	show() {
@@ -215,17 +221,6 @@ class Arena {
 		}
 	}
 
-	show() {
-		for(let r = 0; r < this.rows; r++) {
-			for(let c = 0; c < this.cols; c++) {
-				if(this.matrix[r][c]) {
-					ctx.fillStyle = colors[this.matrix[r][c]];
-					ctx.fillRect(c, r, 1, 1);
-				}
-			}
-		}
-	}
-
 	sweep() {
 		let r = this.rows-1;
 		outer: while(r) {
@@ -238,6 +233,26 @@ class Arena {
 			this.score++;
 			this.matrix.splice(r, 1);
 			this.matrix.unshift(new Array(this.cols).fill(0));
+		}
+	}
+
+	copy() {
+		let copy = new Arena(this.cols, this.rows);
+		copy.matrix = deepCopy(this.matrix);
+		copy.future = deepCopy(this.future);
+		copy.history = deepCopy(this.history);
+		copy.score = this.score;
+		return copy;
+	}
+
+	show() {
+		for(let r = 0; r < this.rows; r++) {
+			for(let c = 0; c < this.cols; c++) {
+				if(this.matrix[r][c]) {
+					ctx.fillStyle = colors[this.matrix[r][c]];
+					ctx.fillRect(c, r, 1, 1);
+				}
+			}
 		}
 	}
 }
