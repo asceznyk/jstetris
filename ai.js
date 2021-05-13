@@ -92,7 +92,7 @@ var exhaustAI = function(arena, tetromino){
 			if (score > bestscore || bestscore == null) {
 				bestscore = score;
 				bestpiece = _piece.copy();
-				console.log(bestscore, _arena.matrix, bestpiece.matrix);
+				//console.log(bestscore, _arena.matrix, bestpiece.matrix);
 			}
 			
 			//console.log(_piece.x)

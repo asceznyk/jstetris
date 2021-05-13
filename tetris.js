@@ -7,12 +7,12 @@ const scl = canvas.width/cols;
 
 ctx.scale(scl, scl);
 
-var end = 0
+var end = 0;
 var colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#293241', '#5B4144']; 
 
 var createMatrix = function() {
-	//let text = 'IJZOSLT';
-	let text = 'Z';
+	let text = 'OJLZSTI';
+	//let text = 'Z';
 	let type = text[Math.floor(Math.random() * text.length)];
 	if (type === 'I') {
         return [
@@ -64,7 +64,7 @@ var collideMatrix = function(tetromino, arena) {
 	for(let y = 0; y < m.length; y++) {
 		for(let x = 0; x < m.length; x++) {	
 			if ((m[y][x] !== 0 && !arena.matrix[o.y+y])
-				|| (m[y][x] !== 0 && arena.matrix[o.y+y][o.x+x] !== 0)) {		
+				|| (m[y][x] !== 0 && arena.matrix[o.y+y][o.x+x] !== 0)) {
 				return true;
 			}
 		}
@@ -94,7 +94,6 @@ class Tetromino {
 	}
 
 	reset(arena) {
-		//console.log(arenaScore(arena), arena.matrix)
 		this.x = this.start;
 		this.y = 0;	
 		
@@ -103,7 +102,10 @@ class Tetromino {
 		this.matrix = this.future[0];
 	
 		if(collideMatrix(this, arena)) {
-			arena.reset();
+			console.log('ended here!');
+			console.log(arena.matrix);
+			console.log(tetromino);
+			arena.reset();	
 			end = 1;
 		}
 	}
@@ -138,6 +140,19 @@ class Tetromino {
 	}
 
 	rotate(arena) {
+		/*let pos = this.x;
+		let offset = 1;
+		rotateMatrix(this, 1);
+		while (collideMatrix(this, arena)) {
+			this.x += offset;
+			offset = -(offset + (offset > 0 ? 1 : -1));
+			if (offset > this.matrix[0].length) {
+				rotateMatrix(this, -1);
+				this.x = pos;
+				return;
+			}
+		}*/
+
 		let dir = 1;
 		rotateMatrix(this, dir);
 		if (collideMatrix(this, arena)) {
@@ -248,9 +263,14 @@ class Arena {
 	show() {
 		for(let r = 0; r < this.rows; r++) {
 			for(let c = 0; c < this.cols; c++) {
-				if(this.matrix[r][c]) {
-					ctx.fillStyle = colors[this.matrix[r][c]];
+				if(r < 2) {
+					ctx.fillStyle = '#fff';
 					ctx.fillRect(c, r, 1, 1);
+				} else {
+					if(this.matrix[r][c]) {
+						ctx.fillStyle = colors[this.matrix[r][c]];
+						ctx.fillRect(c, r, 1, 1);
+					}
 				}
 			}
 		}

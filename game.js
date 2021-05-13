@@ -5,7 +5,10 @@ var stepTetris = function() {
 	ctx.fillStyle = "#E0FBFC";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
 	tetromino.drop(arena);
-	tetromino.show();	
+	if(!ai) {tetromino.show() };
+	arena.sweep();
+	arena.show();
+	document.getElementById('score').innerHTML = 'Score: '+arena.score;
 };
 
 document.addEventListener('keydown', function(e) {	
@@ -32,17 +35,12 @@ var paused = 0;
 var showTetris = function(time) {
 	if((time-start) >= 200 && !paused) {
 		if(!end) {
-			start = time;
-			stepTetris();
-			
+			start = time;	
 			if(ai) {
 				tetromino = playAI(arena, tetromino);
 				//playAI(arena, tetromino)
 			}
-
-			arena.sweep();
-			arena.show();
-			document.getElementById('score').innerHTML = 'Score: '+arena.score;
+			stepTetris();	
 		}
 	}	
 	window.requestAnimationFrame(showTetris);
