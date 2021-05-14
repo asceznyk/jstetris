@@ -1,3 +1,14 @@
+const canvas = document.getElementById('mycanvas');
+const ctx = canvas.getContext('2d');
+
+const rows = 22;
+const cols = 10;
+const scl = canvas.width/cols; 
+
+ctx.scale(scl, scl);
+
+var end = 0;
+
 var tetromino = new Tetromino(cols);
 var arena = new Arena(cols, rows);
 
@@ -33,7 +44,7 @@ var ai = 0;
 var start = 0;
 var paused = 0;
 var showTetris = function(time) {
-	if((time-start) >= 200 && !paused) {
+	if((time-start) >= 100 && !paused) {
 		if(!end) {
 			start = time;	
 			if(ai) {

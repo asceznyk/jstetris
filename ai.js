@@ -81,24 +81,19 @@ var exhaustAI = function(arena, tetromino){
 		}
 		while(_piece.left(arena));	
 		
-		while(1) {
+		while(!collideMatrix(_piece, arena)) {
 			let ppiece = _piece.copy();		
 			let _arena = arena.copy();	
 			
 			while(ppiece.drop(_arena));
 
 			let score = arenaScore(_arena);
-			//console.log(_arena.matrix, score);
 			if (score > bestscore || bestscore == null) {
 				bestscore = score;
 				bestpiece = _piece.copy();
-				//console.log(bestscore, _arena.matrix, bestpiece.matrix);
 			}
-			
-			//console.log(_piece.x)
-			if(!_piece.push(arena, 1)) {
-				break;
-			}
+				
+			_piece.x++;
 		}
 	}	
 

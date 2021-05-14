@@ -1,103 +1,21 @@
-const canvas = document.getElementById('mycanvas');
-const ctx = canvas.getContext('2d');
-
-const rows = 22;
-const cols = 10;
-const scl = canvas.width/cols; 
-
-ctx.scale(scl, scl);
-
-var end = 0;
 var colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#293241', '#5B4144']; 
-
-var createMatrix = function() {
-	let text = 'OJLZSTI';
-	//let text = 'Z';
-	let type = text[Math.floor(Math.random() * text.length)];
-	if (type === 'I') {
-        return [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [1, 1, 1, 1],
-            [0, 0, 0, 0],
-        ];
-    } else if (type === 'J') {
-        return [
-            [0, 0, 2],
-            [2, 2, 2],
-            [0, 0, 0],
-        ];
-    } else if (type === 'L') {
-        return [
-            [3, 0, 0],
-            [3, 3, 3],
-            [0, 0, 0],
-        ];
-    } else if (type === 'O') {
-        return [
-            [4, 4],
-            [4, 4],
-        ];
-    } else if (type === 'Z') {
-        return [
-            [5, 5, 0],
-            [0, 5, 5],
-            [0, 0, 0],
-        ];
-    } else if (type === 'S') {
-        return [
-            [0, 6, 6],
-            [6, 6, 0],
-            [0, 0, 0],
-        ];
-    } else if (type === 'T') {
-        return [
-            [0, 7, 0],
-            [7, 7, 7],
-            [0, 0, 0],
-        ];
-    }
-};
-
-var collideMatrix = function(tetromino, arena) {
-	let [m, o] = [tetromino.matrix, {x: tetromino.x, y: tetromino.y}];
-	for(let y = 0; y < m.length; y++) {
-		for(let x = 0; x < m.length; x++) {	
-			if ((m[y][x] !== 0 && !arena.matrix[o.y+y])
-				|| (m[y][x] !== 0 && arena.matrix[o.y+y][o.x+x] !== 0)) {
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-var rotateMatrix = function(tetromino, dir) {
-	tetromino.matrix = tetromino.matrix[0].map((_, c) => tetromino.matrix.map((r) => r[c]))
-	if(dir > 0) {
-		tetromino.matrix = tetromino.matrix.map((r) => r.reverse())
-	} else {
-		tetromino.matrix = tetromino.matrix.reverse()
-	}
-}
 
 class Tetromino {
 	constructor(cols) {
 		this.start = Math.floor(cols/2);
 		this.x = this.start;
 		this.y = 0;
+		this.rpg = new RandomPieceGenerator();
 		
-		this.future = [createMatrix(), createMatrix()];
+		this.future = [this.rpg.next(), this.rpg.next()];
 		this.matrix = this.future[0];
-
 	}
 
 	reset(arena) {
 		this.x = this.start;
 		this.y = 0;	
 		
-		this.future.push(createMatrix());
+		this.future.push(this.rpg.next());
 		this.future.shift();
 		this.matrix = this.future[0];
 	
@@ -140,7 +58,7 @@ class Tetromino {
 	}
 
 	rotate(arena) {
-		/*let pos = this.x;
+		let pos = this.x;
 		let offset = 1;
 		rotateMatrix(this, 1);
 		while (collideMatrix(this, arena)) {
@@ -151,13 +69,13 @@ class Tetromino {
 				this.x = pos;
 				return;
 			}
-		}*/
+		}
 
-		let dir = 1;
+		/*let dir = 1;
 		rotateMatrix(this, dir);
 		if (collideMatrix(this, arena)) {
 			rotateMatrix(this, -dir);
-		}
+		}*/
 	}	
 
 	copy() {

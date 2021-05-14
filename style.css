@@ -8,9 +8,11 @@ body, html {
 }
 
 #mycanvas {
-	background:#EOFBFC;
+	margin-top:-40px;
+	background: #E0FBFC;
 }
 
 #score {
 	margin: 10px 0px;
+	margin-bottom:40px;
 }
