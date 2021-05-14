@@ -44,7 +44,7 @@ var ai = 0;
 var start = 0;
 var paused = 0;
 var showTetris = function(time) {
-	if((time-start) >= 100 && !paused) {
+	if((time-start) >= 75 && !paused) {
 		if(!end) {
 			start = time;	
 			if(ai) {

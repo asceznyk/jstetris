@@ -182,7 +182,7 @@ class Arena {
 		for(let r = 0; r < this.rows; r++) {
 			for(let c = 0; c < this.cols; c++) {
 				if(r < 2) {
-					ctx.fillStyle = '#fff';
+					ctx.fillStyle = '#FFF'
 					ctx.fillRect(c, r, 1, 1);
 				} else {
 					if(this.matrix[r][c]) {
