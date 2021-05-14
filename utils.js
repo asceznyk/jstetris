@@ -27,13 +27,13 @@ var createMatrix = function(text) {
             [1, 1, 1, 1],
             [0, 0, 0, 0],
         ];
-    } else if (type === 'J') {
+    } else if (type === 'L') {
         return [
             [0, 0, 2],
             [2, 2, 2],
             [0, 0, 0],
         ];
-    } else if (type === 'L') {
+    } else if (type === 'J') {
         return [
             [3, 0, 0],
             [3, 3, 3],
@@ -80,10 +80,23 @@ var collideMatrix = function(tetromino, arena) {
 }
 
 var rotateMatrix = function(tetromino, dir) {
-	tetromino.matrix = tetromino.matrix[0].map((_, c) => tetromino.matrix.map((r) => r[c]))
+	//tetromino.matrix = tetromino.matrix[0].map((_, c) => tetromino.matrix.map((r) => r[c]))
+	
+	for (let y=0; y < tetromino.matrix.length; y++) {
+		for (let x = 0; x < y; x++) {
+			[
+				tetromino.matrix[x][y], 
+				tetromino.matrix[y][x]
+			] = [
+				tetromino.matrix[y][x], 
+				tetromino.matrix[x][y]
+			]; 
+		}
+	}
+
 	if(dir > 0) {
-		tetromino.matrix = tetromino.matrix.map((r) => r.reverse())
+		tetromino.matrix.forEach((r) => r.reverse())
 	} else {
-		tetromino.matrix = tetromino.matrix.reverse()
+		tetromino.matrix.reverse()
 	}
 }

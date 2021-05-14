@@ -15,11 +15,16 @@ var arena = new Arena(cols, rows);
 var stepTetris = function() {
 	ctx.fillStyle = "#E0FBFC";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
-	tetromino.drop(arena);
-	if(!ai) {tetromino.show() };
 	arena.sweep();
 	arena.show();
+
+	if(!ai) {
+		tetromino.drop(arena);
+		tetromino.show();
+	}
+
 	document.getElementById('score').innerHTML = 'Score: '+arena.score;
+	ctx.restore();
 };
 
 document.addEventListener('keydown', function(e) {	
@@ -44,7 +49,7 @@ var ai = 0;
 var start = 0;
 var paused = 0;
 var showTetris = function(time) {
-	if((time-start) >= 75 && !paused) {
+	if((time-start) >= 100 && !paused) {
 		if(!end) {
 			start = time;	
 			if(ai) {

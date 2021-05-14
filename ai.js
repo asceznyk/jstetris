@@ -63,7 +63,6 @@ var arenaScore = function(arena) {
 	let bumps = bumpiness(arena);
 	let [a, b, c, d] = [0.510066, 0.760666, 0.35663, 0.184483];
 	let score = -a * agheight + b * lines - c * holes - d * bumps
-	//console.log(agheight, lines, holes, bumps, score);
 	if(score != 0) {
 		return score;
 	}
@@ -73,7 +72,9 @@ var arenaScore = function(arena) {
 var exhaustAI = function(arena, tetromino){
 	let bestpiece = null;
 	let bestscore = null;
-		
+	let bestpos = null;
+	
+	let count = 0;	
 	for(let rotation = 0; rotation < 4; rotation++){
 		let _piece = tetromino.copy();
 		for(let r = 0; r < rotation; r++) {
@@ -86,22 +87,26 @@ var exhaustAI = function(arena, tetromino){
 			let _arena = arena.copy();	
 			
 			while(ppiece.drop(_arena));
-
+			
+			count++;
 			let score = arenaScore(_arena);
 			if (score > bestscore || bestscore == null) {
 				bestscore = score;
 				bestpiece = _piece.copy();
+				bestpos = _arena.copy();
 			}
 				
 			_piece.x++;
 		}
-	}	
+	}
+
+	console.log(bestpiece, bestpos)
 
 	return bestpiece;
 };
 
 var playAI = function(arena, tetromino) {
-	tetromino = exhaustAI(arena, tetromino);
+	tetromino = exhaustAI(arena, tetromino);	
 	while(tetromino.drop(arena));
 	return tetromino;	
 }

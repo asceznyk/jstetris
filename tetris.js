@@ -7,25 +7,25 @@ class Tetromino {
 		this.y = 0;
 		this.rpg = new RandomPieceGenerator();
 		
-		this.future = [this.rpg.next(), this.rpg.next()];
-		this.matrix = this.future[0];
+		//this.future = [this.rpg.next(), this.rpg.next()];
+		this.matrix = this.rpg.next(); //this.future[0];
 	}
 
 	reset(arena) {
 		this.x = this.start;
 		this.y = 0;	
 		
-		this.future.push(this.rpg.next());
-		this.future.shift();
-		this.matrix = this.future[0];
+		//this.future.push(this.rpg.next());
+		//this.future.shift();
+		this.matrix = this.rpg.next();
 	
-		if(collideMatrix(this, arena)) {
+		/*if(collideMatrix(this, arena)) {
 			console.log('ended here!');
 			console.log(arena.matrix);
 			console.log(tetromino);
 			arena.reset();	
 			end = 1;
-		}
+		}*/
 	}
 
 	drop(arena) {
@@ -79,8 +79,16 @@ class Tetromino {
 	}	
 
 	copy() {
+		let _matrix = new Array(this.matrix.length);
+		for(let r = 0; r < this.matrix.length; r++) {
+			_matrix[r] = new Array(this.matrix.length);
+			for(let c = 0; c < this.matrix.length; c++) {
+				_matrix[r][c] = this.matrix[r][c]
+			}
+		}
+		
 		let copy = new Tetromino(10);
-		copy.matrix = deepCopy(this.matrix)
+		copy.matrix = _matrix;		
 		copy.x = this.x
 		return copy;
 	}
@@ -170,8 +178,16 @@ class Arena {
 	}
 
 	copy() {
+		let _matrix = new Array(this.rows);
+		for(let r = 0; r < this.rows; r++) {
+			_matrix[r] = new Array(this.cols);
+			for(let c = 0; c < this.cols; c++) {
+				_matrix[r][c] = this.matrix[r][c]
+			}
+		}
+		
 		let copy = new Arena(this.cols, this.rows);
-		copy.matrix = deepCopy(this.matrix);
+		copy.matrix = _matrix;
 		copy.future = deepCopy(this.future);
 		copy.history = deepCopy(this.history);
 		copy.score = this.score;

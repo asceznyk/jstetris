@@ -8,7 +8,7 @@ function RandomPieceGenerator(){
 RandomPieceGenerator.prototype.next = function(){
     this.index++;
     if (this.index >= this.bag.length){
-        this.shuffleBag();
+        this.shuffle();
         this.index = 0;
     }
     return createMatrix(this.bag[this.index]);
