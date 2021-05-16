@@ -69,46 +69,37 @@ var arenaScore = function(arena) {
 	return -INF;
 }
 
-var exhaustAI = function(arena, tetromino){
+var exhaustMoves = function(arena, pieces, idx){
 	let bestpiece = null;
 	let bestscore = null;
-	let bestpos = null;
-	
-	let count = 0;	
+
+	let piece = pieces[idx];
+
 	for(let rotation = 0; rotation < 4; rotation++){
-		let _piece = tetromino.copy();
-		for(let r = 0; r < rotation; r++) {
+		let _piece = piece.copy();
+		for(let i = 0; i < rotation; i++){
 			_piece.rotate(arena);
 		}
-		while(_piece.left(arena));	
+		while(_piece.push(arena, -1));
+
+		while(arena.valid(_piece)){
+			let ppiece = _piece.copy();	
+			while(ppiece.drop(arena));
+
+			let _arena = arena.copy();		
+			_arena.merge(ppiece);
 		
-		while(!collideMatrix(_piece, arena)) {
-			let ppiece = _piece.copy();		
-			let _arena = arena.copy();	
-			
-			while(ppiece.drop(_arena));
-			
-			count++;
-			let score = arenaScore(_arena);
-			if (score > bestscore || bestscore == null) {
-				bestscore = score;
-				bestpiece = _piece.copy();
-				bestpos = _arena.copy();
+			let score = arenaScore(_arena);			
+			if (score > bestscore || bestscore == null){
+				bestscore = score; 
+				bestpiece = _piece.copy();	
 			}
-				
+
 			_piece.x++;
 		}
 	}
-
-	console.log(bestpiece, bestpos)
-
+		
 	return bestpiece;
 };
-
-var playAI = function(arena, tetromino) {
-	tetromino = exhaustAI(arena, tetromino);	
-	while(tetromino.drop(arena));
-	return tetromino;	
-}
 
 

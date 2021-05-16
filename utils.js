@@ -79,9 +79,7 @@ var collideMatrix = function(tetromino, arena) {
 	return false;
 }
 
-/*var rotateMatrix = function(tetromino, dir) {
-	//tetromino.matrix = tetromino.matrix[0].map((_, c) => tetromino.matrix.map((r) => r[c]))
-	
+var rotateMatrix = function(tetromino, dir) {
 	for (let y=0; y < tetromino.matrix.length; ++y) {
 		for (let x = 0; x < y; ++x) {
 			[
@@ -99,9 +97,9 @@ var collideMatrix = function(tetromino, arena) {
 	} else {
 		tetromino.matrix.reverse()
 	}
-}*/
+}
 
-var rotateMatrix = function(tetromino) {
+/*var rotateMatrix = function(tetromino) {
 	let m = tetromino.matrix;
 	var _cells = new Array(m.length);
 	for (var r = 0; r < m.length; r++) {
@@ -147,5 +145,5 @@ var rotateMatrix = function(tetromino) {
 	}
 
 	tetromino.matrix = _cells;
-};
+};*/
 

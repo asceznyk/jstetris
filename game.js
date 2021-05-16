@@ -8,34 +8,58 @@ const scl = canvas.width/cols;
 ctx.scale(scl, scl);
 
 var end = 0;
+var fly = 0;
 
-var tetromino = new Tetromino(cols);
+var rpg = new RandomPieceGenerator();
+//var pieces = [null, rpg.next()];
+var piece = rpg.next();
 var arena = new Arena(cols, rows);
+
+var ai = 0;
+var start = 0;
+var lapse = 50;
+var paused = 0;
 
 var stepTetris = function() {
 	ctx.fillStyle = "#E0FBFC";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
-	arena.sweep();
+	
 	arena.show();
+	arena.sweep();
+	
+	let exceeded = arena.exceeded();
+	if(exceeded) {
+		end = 1;
+	} 
 
 	if(!ai) {
-		tetromino.drop(arena);
-		tetromino.show();
+		if(!exceeded) {
+			fly = piece.drop(arena);
+			piece.show();
+		}
+	} else {
+		piece = exhaustMoves(arena, [piece], 0);
+		while(piece.drop(arena));
+		fly = 0;
+	}
+
+	if(!fly) {	
+		arena.merge(piece);
+		piece = rpg.next();
 	}
 
 	document.getElementById('score').innerHTML = 'Score: '+arena.score;
-	ctx.restore();
 };
 
 document.addEventListener('keydown', function(e) {	
 	if(e.keyCode == 37) {
-		tetromino.push(arena, -1);
+		piece.push(arena, -1);
 	} else if(e.keyCode == 38) {
-		tetromino.rotate(arena, 1);
+		piece.rotate(arena, 1);
 	} else if(e.keyCode == 39) {
-		tetromino.push(arena, 1);
+		piece.push(arena, 1);
 	} else if(e.keyCode == 40) {
-		tetromino.drop(arena);
+		piece.drop(arena);
 	} else if(e.keyCode == 13) {
 		paused ^= 1;	
 	} else if(e.keyCode == 82) {
@@ -45,19 +69,13 @@ document.addEventListener('keydown', function(e) {
 	}
 });
 
-var ai = 0;
-var start = 0;
-var paused = 0;
 var showTetris = function(time) {
-	if((time-start) >= 100 && !paused) {
+	if((time-start) >= lapse && !paused) {
+		start = time;	
 		if(!end) {
-			start = time;	
-			if(ai) {
-				tetromino = playAI(arena, tetromino);
-				//playAI(arena, tetromino)
-			}
-			stepTetris();	
-		}
+			stepTetris();
+			game = 0;
+		}	
 	}	
 	window.requestAnimationFrame(showTetris);
 } 
