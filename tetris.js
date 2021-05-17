@@ -137,10 +137,10 @@ class Arena {
 				let _r = tetromino.y + r;
 				let _c = tetromino.x + c;
 				if (tetromino.matrix[r][c] != 0){
-					if(_r < 0 || _r >= this.rows){
+					if(_r < 0 || _r >= this.rows){	
 						return false;
 					}
-					if(_c < 0 || _c >= this.cols){
+					if(_c < 0 || _c >= this.cols){	
 						return false;
 					}
 					if (this.matrix[_r][_c] != 0){

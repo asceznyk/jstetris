@@ -7,18 +7,18 @@ const scl = canvas.width/cols;
 
 ctx.scale(scl, scl);
 
-var end = 0;
-var fly = 0;
-
-var rpg = new RandomPieceGenerator();
-//var pieces = [null, rpg.next()];
-var piece = rpg.next();
-var arena = new Arena(cols, rows);
-
 var ai = 0;
 var start = 0;
 var lapse = 50;
 var paused = 0;
+
+var end = 0;
+var fly = 0;
+
+var rpg = new RandomPieceGenerator();
+var pieces = [rpg.next(), rpg.next()];
+var piece = pieces[0];
+var arena = new Arena(cols, rows);
 
 var stepTetris = function() {
 	ctx.fillStyle = "#E0FBFC";
@@ -38,17 +38,23 @@ var stepTetris = function() {
 			piece.show();
 		}
 	} else {
-		piece = exhaustMoves(arena, [piece], 0);
+		piece = exhaustMoves(arena, pieces, 0);
 		while(piece.drop(arena));
 		fly = 0;
 	}
 
 	if(!fly) {	
 		arena.merge(piece);
-		piece = rpg.next();
+
+		for(let i = 0; i < pieces.length - 1; i++) {
+			pieces[i] = pieces[i+1]
+		}
+		pieces[pieces.length-1] = rpg.next();
+
+		piece = pieces[0];
 	}
 
-	document.getElementById('score').innerHTML = 'Score: '+arena.score;
+	document.getElementById('lines').innerHTML = 'Lines: '+arena.score;
 };
 
 document.addEventListener('keydown', function(e) {	
