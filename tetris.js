@@ -53,7 +53,7 @@ class Tetromino {
 			for (let x = 0; x < this.matrix.length; x++) {
 				if (this.matrix[y][x]) {
 					ctx.fillStyle = colors[this.matrix[y][x]];
-					ctx.fillRect(this.x+x, this.y+y, 1, 1);	
+					ctx.fillRect(this.x+x, this.y+y - 2, 1, 1);	
 				}
 			}
 		}
@@ -153,16 +153,14 @@ class Arena {
 	};
 
 	show() {
-		for(let r = 0; r < this.rows; r++) {
+		for(let r = 2; r < this.rows; r++) {
 			for(let c = 0; c < this.cols; c++) {
-				if(r < 2) {
-					ctx.fillStyle = '#fff';
-					ctx.fillRect(c, r, 1, 1);
+				if(this.matrix[r][c]) {
+					ctx.fillStyle = colors[this.matrix[r][c]];
+					ctx.fillRect(c, r-2, 1, 1);
 				} else {
-					if(this.matrix[r][c]) {
-						ctx.fillStyle = colors[this.matrix[r][c]];
-						ctx.fillRect(c, r, 1, 1);
-					}
+					ctx.fillStyle = '#E0FBFC';
+					ctx.fillRect(c, r-2, 1, 1);
 				}
 			}
 		}

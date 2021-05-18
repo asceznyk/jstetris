@@ -1,5 +1,6 @@
 body, html {
 	margin : 0px;
+	font-family:'Share Tech Mono', monospace;
 }
 
 .wrapper {
@@ -7,20 +8,22 @@ body, html {
 	margin: auto;
 }
 
-#mycanvas {
-	margin-top:0px;
-	background: #E0FBFC;
+.heading {
+	display: flex;
+	font-family:inherit;
+	font-size: 1rem;
+	margin-bottom:10px;
 }
 
-#score {
-	margin: 10px 0px;
+.lines {	
 	display: flex;
-	position: absolute;
-	top: 5px;
 	background: #E0FBFC;
 	padding: 5px 5px 5px 0px;
-	font-family: 'Share Tech Mono', monospace;
-	font-size: 0.85rem;	
+	font-family: inherit;
+	font-size: 0.85rem;
+	width:fit-content;
 }
 
-
+#mycanvas {
+	margin-top:0px;	
+}
