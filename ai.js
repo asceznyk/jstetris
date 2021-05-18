@@ -69,7 +69,7 @@ var arenaScore = function(arena) {
 	return -INF;
 }
 
-var exhaustMoves = function(arena, pieces, idx){
+var rdfsMoves = function(arena, pieces, idx){
 	let bestpiece = null;
 	let bestscore = null;
 
@@ -82,14 +82,24 @@ var exhaustMoves = function(arena, pieces, idx){
 		}
 		while(_piece.push(arena, -1));
 
-		while(arena.valid(_piece)){
+		while (!collideMatrix(_piece, arena)) {
 			let ppiece = _piece.copy();	
 			while(ppiece.drop(arena));
 
 			let _arena = arena.copy();		
 			_arena.merge(ppiece);
-		
-			let score = arenaScore(_arena);			
+
+			let score = null;
+			if(idx == pieces.length-1) {
+				score = arenaScore(_arena);
+			} else {
+				score = rdfsMoves(_arena, pieces, idx+1).score
+			}
+
+			//let score = arenaScore(_arena);
+
+			visited++;
+
 			if (score > bestscore || bestscore == null){
 				bestscore = score; 
 				bestpiece = _piece.copy();	
@@ -99,7 +109,6 @@ var exhaustMoves = function(arena, pieces, idx){
 		}
 	}
 		
-	return bestpiece;
+	return {piece:bestpiece, score:bestscore};
 };
-
 

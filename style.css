@@ -4,15 +4,19 @@ body, html {
 }
 
 .wrapper {
-	max-width: 200px;
+	max-width: 400px;
 	margin: auto;
 }
 
-.heading {
-	display: flex;
+.gameside, .manualside {
+	width:50%;
+	float:left;
+}
+
+.heading, .credits {
 	font-family:inherit;
 	font-size: 1rem;
-	margin: 10px 0px;
+	margin: 12px 0px;
 }
 
 .lines {	
@@ -24,6 +28,25 @@ body, html {
 	width:fit-content;
 }
 
+.credits {
+	font-size: 0.75rem;	
+}
+
+.postscript {
+	padding:20px;
+}
+
+.instructions, .postscript {
+	font-family: inherit;
+	font-size: 0.75rem;
+}
+
+.instructions ul {
+	margin: 0px 10px;
+	padding-inline-start: 23px;
+}
+
 #mycanvas {
 	margin-top:0px;	
 }
+

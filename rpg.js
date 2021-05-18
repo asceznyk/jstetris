@@ -11,7 +11,7 @@ RandomPieceGenerator.prototype.next = function(){
         this.shuffle();
         this.index = 0;
     }
-    return new Tetromino(createMatrix(this.bag[this.index]));
+    return new Tetromino(createMatrix(this.bag[this.index])) //%7;
 };
 
 RandomPieceGenerator.prototype.shuffle = function() {

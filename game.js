@@ -21,7 +21,6 @@ var piece = pieces[0];
 var arena = new Arena(cols, rows);
 
 var stepTetris = function() {
-	ctx.fillStyle = "#E0FBFC";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
 	
 	arena.show();
@@ -32,15 +31,16 @@ var stepTetris = function() {
 		end = 1;
 	} 
 
-	if(!ai) {
+	if(ai) {
+		piece = rdfsMoves(arena, pieces, 0).piece;
+		while(piece.drop(arena));
+		console.log('nodes visited:'+visited);
+		fly = 0;
+	} else {
 		if(!exceeded) {
 			fly = piece.drop(arena);
 			piece.show();
 		}
-	} else {
-		piece = exhaustMoves(arena, pieces, 0);
-		while(piece.drop(arena));
-		fly = 0;
 	}
 
 	if(!fly) {	
@@ -54,7 +54,7 @@ var stepTetris = function() {
 		piece = pieces[0];
 	}
 
-	document.getElementById('lines').innerHTML = 'Lines: '+arena.score;
+	document.getElementsByClassName('lines')[0].innerHTML = 'Lines: '+arena.score;
 };
 
 document.addEventListener('keydown', function(e) {	
