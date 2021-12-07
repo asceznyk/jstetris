@@ -7,20 +7,20 @@ const scl = canvas.width/cols;
 
 ctx.scale(scl, scl);
 
-var ai = 0;
-var start = 0;
-var lapse = 50;
-var paused = 0;
+let ai = 0;
+let start = 0;
+let lapse = 50;
+let paused = 0;
 
-var end = 0;
-var fly = 0;
+let end = 0;
+let fly = 0;
 
-var rpg = new RandomPieceGenerator();
-var pieces = [rpg.next(), rpg.next()];
-var piece = pieces[0];
-var arena = new Arena(cols, rows);
+let rpg = new RandomPieceGenerator();
+let pieces = [rpg.next(), rpg.next()];
+let piece = pieces[0];
+let arena = new Arena(cols, rows);
 
-var stepTetris = function() {
+let stepTetris = function() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
 	
 	arena.show();
@@ -75,7 +75,7 @@ document.addEventListener('keydown', function(e) {
 	}
 });
 
-var showTetris = function(time) {
+let showTetris = function(time) {
 	if((time-start) >= lapse && !paused) {
 		start = time;	
 		if(!end) {
@@ -86,4 +86,4 @@ var showTetris = function(time) {
 	window.requestAnimationFrame(showTetris);
 } 
 
-var game = window.requestAnimationFrame(showTetris);
+let game = window.requestAnimationFrame(showTetris);

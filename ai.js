@@ -1,14 +1,14 @@
 const INF = 300000;
 
-var visited = 0;
+let visited = 0;
 
-var colHeight = function(arena, colidx) {
+let colHeight = function(arena, colidx) {
 	let r = 0;
 	for(; r < arena.rows && arena.matrix[r][colidx] == 0; r++);
 	return arena.rows - r;
 }
 
-var	aggHeight = function(arena) {
+let	aggHeight = function(arena) {
 	let agheight = 0;	
 	for(let c = 0; c < arena.cols; c++) {
 		agheight += colHeight(arena, c);
@@ -16,7 +16,7 @@ var	aggHeight = function(arena) {
 	return agheight;
 }
 
-var bumpiness = function(arena) {
+let bumpiness = function(arena) {
 	let total = 0;
 	for(let c = 0; c < arena.cols - 1; c++) {
 		total += Math.abs(colHeight(arena, c) - colHeight(arena, c+1));
@@ -24,7 +24,7 @@ var bumpiness = function(arena) {
 	return total;
 }
 
-var completeLines = function(arena) {
+let completeLines = function(arena) {
 	let total = 0;
 
 	let r = arena.rows;
@@ -40,7 +40,7 @@ var completeLines = function(arena) {
 	return total;
 }
 
-var countHoles = function(arena) {
+let countHoles = function(arena) {
 	let count = 0;
 	for(let c = 0; c < arena.cols; c++) {
 		let block = false;
@@ -56,7 +56,7 @@ var countHoles = function(arena) {
 	return count;
 }
 
-var arenaScore = function(arena) {
+let arenaScore = function(arena) {
 	let agheight = aggHeight(arena);
 	let lines = completeLines(arena);
 	let holes = countHoles(arena);
@@ -69,7 +69,7 @@ var arenaScore = function(arena) {
 	return -INF;
 }
 
-var rdfsMoves = function(arena, pieces, idx){
+let rdfsMoves = function(arena, pieces, idx){
 	let bestpiece = null;
 	let bestscore = null;
 
@@ -94,13 +94,11 @@ var rdfsMoves = function(arena, pieces, idx){
 				score = arenaScore(_arena);
 			} else {
 				score = rdfsMoves(_arena, pieces, idx+1).score
-			}
-
-			//let score = arenaScore(_arena);
+			}	
 
 			visited++;
 
-			if (score > bestscore || bestscore == null){
+			if (score > bestscore || bestscore == null) {
 				bestscore = score; 
 				bestpiece = _piece.copy();	
 			}

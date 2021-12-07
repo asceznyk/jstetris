@@ -15,7 +15,7 @@ RandomPieceGenerator.prototype.next = function(){
 };
 
 RandomPieceGenerator.prototype.shuffle = function() {
-    var curidx = this.bag.length
+    let curidx = this.bag.length
         , temp
         , randomidx;
 
