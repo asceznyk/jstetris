@@ -39,6 +39,10 @@ body, html {
 	font-size: 0.75rem;	
 }
 
+.credits a {
+	color: #E7DFC6;
+}
+
 .postscript {
 	padding:0px;
 }
