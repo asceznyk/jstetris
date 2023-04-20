@@ -1,4 +1,4 @@
-const canvas = document.getElementById('mycanvas');
+const canvas = document.getElementById('ingame');
 const ctx = canvas.getContext('2d');
 
 const rows = 22;
@@ -20,7 +20,7 @@ let pieces = [rpg.next(), rpg.next()];
 let piece = pieces[0];
 let arena = new Arena(cols, rows);
 
-let stepTetris = function() {
+const stepTetris = function() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);	
 	
 	arena.show();
@@ -34,7 +34,6 @@ let stepTetris = function() {
 	if(ai) {
 		piece = rdfsMoves(arena, pieces, 0).piece;
 		while(piece.drop(arena));
-		console.log('nodes visited:'+visited);
 		fly = 0;
 	} else {
 		if(!exceeded) {
@@ -75,7 +74,7 @@ document.addEventListener('keydown', function(e) {
 	}
 });
 
-let showTetris = function(time) {
+const showTetris = function(time) {
 	if((time-start) >= lapse && !paused) {
 		start = time;	
 		if(!end) {

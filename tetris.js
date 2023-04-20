@@ -1,4 +1,4 @@
-let colors = ['', '#BCDEEB', '#3D5A80', '#98C1D9', '#EE6C4D', '#8C4F47', '#293241', '#5B4144']; 
+let colors = ['', '#A58ED8', '#E7DFC6', '#623CEA', '#C6B7CF', '#DBD5B2', '#E8E8DF', '#988C8F']; 
 
 class Tetromino {
 	constructor(matrix) {
@@ -134,16 +134,16 @@ class Arena {
 	valid(tetromino){
 		for(let r = 0; r < tetromino.matrix.length; r++){
 			for(let c = 0; c < tetromino.matrix[r].length; c++){
-				let _r = tetromino.y + r;
-				let _c = tetromino.x + c;
+				let rOff = tetromino.y + r;
+				let cOff = tetromino.x + c;
 				if (tetromino.matrix[r][c] != 0){
-					if(_r < 0 || _r >= this.rows){	
+					if(rOff < 0 || rOff >= this.rows){	
 						return false;
 					}
-					if(_c < 0 || _c >= this.cols){	
+					if(cOff < 0 || cOff >= this.cols){	
 						return false;
 					}
-					if (this.matrix[_r][_c] != 0){
+					if (this.matrix[rOff][cOff] != 0){
 						return false;
 					}
 				}
@@ -159,7 +159,7 @@ class Arena {
 					ctx.fillStyle = colors[this.matrix[r][c]];
 					ctx.fillRect(c, r-2, 1, 1);
 				} else {
-					ctx.fillStyle = '#E0FBFC';
+					ctx.fillStyle = '#54426B';
 					ctx.fillRect(c, r-2, 1, 1);
 				}
 			}

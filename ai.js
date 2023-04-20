@@ -1,14 +1,12 @@
 const INF = 300000;
 
-let visited = 0;
-
-let colHeight = function(arena, colidx) {
+const colHeight = function(arena, colidx) {
 	let r = 0;
 	for(; r < arena.rows && arena.matrix[r][colidx] == 0; r++);
 	return arena.rows - r;
 }
 
-let	aggHeight = function(arena) {
+const aggHeight = function(arena) {
 	let agheight = 0;	
 	for(let c = 0; c < arena.cols; c++) {
 		agheight += colHeight(arena, c);
@@ -24,7 +22,7 @@ let bumpiness = function(arena) {
 	return total;
 }
 
-let completeLines = function(arena) {
+const completeLines = function(arena) {
 	let total = 0;
 
 	let r = arena.rows;
@@ -40,7 +38,7 @@ let completeLines = function(arena) {
 	return total;
 }
 
-let countHoles = function(arena) {
+const countHoles = function(arena) {
 	let count = 0;
 	for(let c = 0; c < arena.cols; c++) {
 		let block = false;
@@ -56,7 +54,7 @@ let countHoles = function(arena) {
 	return count;
 }
 
-let arenaScore = function(arena) {
+const arenaScore = function(arena) {
 	let agheight = aggHeight(arena);
 	let lines = completeLines(arena);
 	let holes = countHoles(arena);
@@ -69,41 +67,39 @@ let arenaScore = function(arena) {
 	return -INF;
 }
 
-let rdfsMoves = function(arena, pieces, idx){
+const rdfsMoves = function(arena, pieces, idx){
 	let bestpiece = null;
 	let bestscore = null;
 
 	let piece = pieces[idx];
 
 	for(let rotation = 0; rotation < 4; rotation++){
-		let _piece = piece.copy();
+		let gamePiece = piece.copy();
 		for(let i = 0; i < rotation; i++){
-			_piece.rotate(arena);
+			gamePiece.rotate(arena);
 		}
-		while(_piece.push(arena, -1));
+		while(gamePiece.push(arena, -1));
 
-		while (!collideMatrix(_piece, arena)) {
-			let ppiece = _piece.copy();	
+		while (!collideMatrix(gamePiece, arena)) {
+			let ppiece = gamePiece.copy();	
 			while(ppiece.drop(arena));
 
-			let _arena = arena.copy();		
-			_arena.merge(ppiece);
+			let gameArena = arena.copy();		
+			gameArena.merge(ppiece);
 
 			let score = null;
 			if(idx == pieces.length-1) {
-				score = arenaScore(_arena);
+				score = arenaScore(gameArena);
 			} else {
-				score = rdfsMoves(_arena, pieces, idx+1).score
+				score = rdfsMoves(gameArena, pieces, idx+1).score
 			}	
-
-			visited++;
 
 			if (score > bestscore || bestscore == null) {
 				bestscore = score; 
-				bestpiece = _piece.copy();	
+				bestpiece = gamePiece.copy();	
 			}
 
-			_piece.x++;
+			gamePiece.x++;
 		}
 	}
 		

@@ -18,7 +18,7 @@ const deepCopy = (objectin) => {
   return outobject
 }
 
-let createMatrix = function(text) {
+const createMatrix = function(text) {
 	let type = text[Math.floor(Math.random() * text.length)];
 	if (type === 'I') {
         return [
@@ -65,7 +65,7 @@ let createMatrix = function(text) {
     }
 };
 
-let collideMatrix = function(tetromino, arena) {
+const collideMatrix = function(tetromino, arena) {
 	let [m, o] = [tetromino.matrix, {x: tetromino.x, y: tetromino.y}];
 	for(let y = 0; y < m.length; y++) {
 		for(let x = 0; x < m.length; x++) {	
@@ -79,7 +79,7 @@ let collideMatrix = function(tetromino, arena) {
 	return false;
 }
 
-let rotateMatrix = function(tetromino, dir) {
+const rotateMatrix = function(tetromino, dir) {
 	for (let y=0; y < tetromino.matrix.length; ++y) {
 		for (let x = 0; x < y; ++x) {
 			[

@@ -1,31 +1,38 @@
 body, html {
 	margin : 0px;
-	font-family:'Share Tech Mono', monospace;
+	font-family: monospace;
+	background-color:#54426B;
+	color:white;
 }
 
 .wrapper {
-	max-width: 400px;
+	max-width: 404px;
 	margin: auto;
 }
 
-.gameside, .manualside {
-	width:50%;
-	float:left;
+.renderer {
+	margin:auto;
+	width:calc(50% - 2px);
+	border:1px solid;
+	height: 423px;
 }
 
 .heading, .credits {
 	font-family:inherit;
 	font-size: 1rem;
-	margin: 12px 0px;
+	margin: 24px 0px;
 }
 
-.lines {	
+.lines {
 	display: flex;
-	background: #E0FBFC;
-	padding: 5px 5px 5px 0px;
+	padding: 5px;
 	font-family: inherit;
 	font-size: 0.85rem;
 	width:fit-content;
+}
+
+.manualside {
+	margin:24px 0px;
 }
 
 .credits {
@@ -33,7 +40,7 @@ body, html {
 }
 
 .postscript {
-	padding:20px;
+	padding:0px;
 }
 
 .instructions, .postscript {
@@ -42,11 +49,8 @@ body, html {
 }
 
 .instructions ul {
-	margin: 0px 10px;
-	padding-inline-start: 23px;
+	padding-inline-start: 0px;
+	list-style-type:none;
 }
 
-#mycanvas {
-	margin-top:0px;	
-}
 
